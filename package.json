@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cypress run --browser edge"
-  },
+    "test": "npm install mochawesome mochawesome-merge mochawesome-report-generator --save-dev && npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/my-report,overwrite=false,html=true,json=true",
   "keywords": [],
   "author": "",
   "license": "ISC",
