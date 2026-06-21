@@ -2,7 +2,7 @@ name: Scheduled Pipeline
 
 on:
   schedule:
-    - cron: '45 7 * * *'
+    - cron: '5 23 * * *'
 
 jobs:
   project-setup:
