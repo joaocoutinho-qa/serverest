@@ -4,13 +4,13 @@
   "description": "Test automation project for Serverest API and Frontend",
   "main": "index.js",
   "scripts": {
-    "test": "cypress run",
+    "clean:report": "rimraf cypress/report",
+    "cypress:run": "cypress run --reporter mochawesome --reporter-options reportDir=cypress/report,overwrite=false,html=false,json=true",
     "test:ui": "cypress open",
-    "test:api": "cypress run --spec 'cypress/e2e/api/**/*.cy.js'",
-    "test:frontend": "cypress run --spec 'cypress/e2e/front/**/*.cy.js'",
-    "test:headed": "cypress run --headed",
-    "report": "npm run test && npx mochawesome-report-generator cypress/my-report/mochawesome.json"
-  },
+    "report:merge": "npx mochawesome-merge cypress/report/mochawesome*.json > cypress/report/index.json",
+    "report:gen": "npx mochawesome-report-generator cypress/report/index.json --reportDir cypress/report --reportFilename test_report --reportTitle \"Serverest Test Report\"",
+    "test": "npm run clean:report && (npm run cypress:run || true) && npm run report:merge && npm run report:gen"
+},
   "keywords": [
     "cypress",
     "automation",
@@ -25,6 +25,7 @@
     "dotenv": "^16.3.1",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^4.3.0",
-    "mochawesome-report-generator": "^6.2.0"
+    "mochawesome-report-generator": "^6.2.0",
+    "rimraf": "^6.1.3"
   }
 }

@@ -1,0 +1,277 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 8,
+    "passes": 8,
+    "pending": 0,
+    "failures": 0,
+    "testsRegistered": 8,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "start": "2026-07-20T14:05:05.355Z",
+    "end": "2026-07-20T14:06:23.027Z",
+    "duration": 77672
+  },
+  "results": [
+    {
+      "uuid": "b5c75cdd-8749-451c-8fad-7d2b5da97235",
+      "title": "",
+      "fullFile": "cypress\\e2e\\front\\shoppingList.cy.js",
+      "file": "cypress\\e2e\\front\\shoppingList.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "4130f8f6-0c2c-407c-8202-46ff5c178678",
+          "title": "Shopping List Frontend Tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Search for product and validate search results",
+              "fullTitle": "Shopping List Frontend Tests Search for product and validate search results",
+              "timedOut": null,
+              "duration": 16011,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "Cypress.env('createdProducts');\ncy.get('@products').then(products => {\n  const createdProduct = products[0];\n  shoppingListPage.searchProduct(createdProduct.name);\n  shoppingListPage.validateSearchResults(createdProduct.name);\n});",
+              "err": {},
+              "uuid": "7ba170bb-9e23-4041-bf6b-1bf6a223ab00",
+              "parentUUID": "4130f8f6-0c2c-407c-8202-46ff5c178678",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Add single product to shopping list and validate persistence",
+              "fullTitle": "Shopping List Frontend Tests Add single product to shopping list and validate persistence",
+              "timedOut": null,
+              "duration": 8670,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('@products').then(products => {\n  const createdProduct = products[0];\n  shoppingListPage.searchProduct(createdProduct.name);\n  shoppingListPage.addProductToShoppingList();\n  shoppingListPage.validateProductInShoppingList(createdProduct.name, createdProduct.price);\n  shoppingListPage.getCartItemCount().should('equal', 1);\n});",
+              "err": {},
+              "uuid": "69df2477-389b-40f2-8833-354c01b326a9",
+              "parentUUID": "4130f8f6-0c2c-407c-8202-46ff5c178678",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Add multiple products and clear entire cart",
+              "fullTitle": "Shopping List Frontend Tests Add multiple products and clear entire cart",
+              "timedOut": null,
+              "duration": 10716,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('@products').then(products => {\n  const product1 = products[0];\n  const product2 = products[1];\n  [product1, product2].forEach(product => {\n    shoppingListPage.navigateToHome();\n    shoppingListPage.searchProduct(product.name);\n    shoppingListPage.addProductToShoppingList();\n  });\n  shoppingListPage.navigateToShoppingList();\n  shoppingListPage.clearShoppingList();\n  shoppingListPage.validateEmptyList();\n});",
+              "err": {},
+              "uuid": "eaf253d7-ec0f-4f3e-8b85-2842533a1a81",
+              "parentUUID": "4130f8f6-0c2c-407c-8202-46ff5c178678",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Update product quantity in cart and validate price",
+              "fullTitle": "Shopping List Frontend Tests Update product quantity in cart and validate price",
+              "timedOut": null,
+              "duration": 11552,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('@products').then(products => {\n  const createdProduct = products[0];\n  shoppingListPage.searchProduct(createdProduct.name);\n  shoppingListPage.addProductToShoppingList();\n  shoppingListPage.navigateToShoppingList();\n  shoppingListPage.validateProductQuantity(0, '1');\n  shoppingListPage.incrementProductQuantity(0);\n  shoppingListPage.validateProductQuantity(0, '2');\n  shoppingListPage.validateProductPrice(createdProduct.price * 2);\n});",
+              "err": {},
+              "uuid": "7e7b4dcf-b12e-4b32-839b-6f3ea889a09b",
+              "parentUUID": "4130f8f6-0c2c-407c-8202-46ff5c178678",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "7ba170bb-9e23-4041-bf6b-1bf6a223ab00",
+            "69df2477-389b-40f2-8833-354c01b326a9",
+            "eaf253d7-ec0f-4f3e-8b85-2842533a1a81",
+            "7e7b4dcf-b12e-4b32-839b-6f3ea889a09b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 46949,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "fd9df687-de1e-4b17-a42b-28b2214d1b8e",
+      "title": "",
+      "fullFile": "cypress\\e2e\\api\\registerUser.cy.js",
+      "file": "cypress\\e2e\\api\\registerUser.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "e8606a84-9687-4197-b1be-3f0873e7daa0",
+          "title": "User Registration API Tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Register valid admin user and validate persistence",
+              "fullTitle": "User Registration API Tests Register valid admin user and validate persistence",
+              "timedOut": null,
+              "duration": 3370,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "//asserts: validate persisted admin\nreturn UserAPI.validateUserPersistence(adminId, adminToken).then(responseUser => {\n  expect(responseUser.name).to.equal(_userData.default.adminUser.nome);\n  expect(responseUser.email).to.equal(_userData.default.adminUser.email);\n  expect(responseUser.isAdmin).to.equal(true);\n});",
+              "err": {},
+              "uuid": "ad81c36d-8d78-450e-8e64-ecdb856618c3",
+              "parentUUID": "e8606a84-9687-4197-b1be-3f0873e7daa0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Attempt to register user with duplicate email",
+              "fullTitle": "User Registration API Tests Attempt to register user with duplicate email",
+              "timedOut": null,
+              "duration": 2173,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "//actions & asserts: attempt to register same email again\nreturn UserAPI.registerUser(_userData.default.normalUser).then(duplicateResponse => {\n  UserAPI.validateResponseStatus(duplicateResponse, 400);\n  UserAPI.validateResponseHasMessage(duplicateResponse, 'Este email já está sendo usado');\n});",
+              "err": {},
+              "uuid": "2404cd30-bf34-4d0e-abde-9de97de5d218",
+              "parentUUID": "e8606a84-9687-4197-b1be-3f0873e7daa0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Attempt to register user with missing email field",
+              "fullTitle": "User Registration API Tests Attempt to register user with missing email field",
+              "timedOut": null,
+              "duration": 2102,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const incompleteUser = _userData.default.invalidUserNoEmail;\n//actions & asserts\nreturn UserAPI.registerUser(incompleteUser).then(response => {\n  UserAPI.validateResponseStatus(response, 400);\n  UserAPI.validateErrorSchema(response, 'email');\n  expect(response.body.email).to.exist;\n});",
+              "err": {},
+              "uuid": "7581ac51-5a4c-4d6c-9642-4f6ccbafd9df",
+              "parentUUID": "e8606a84-9687-4197-b1be-3f0873e7daa0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Update user data after registration and validate changes",
+              "fullTitle": "User Registration API Tests Update user data after registration and validate changes",
+              "timedOut": null,
+              "duration": 2533,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const updatedData = {\n  name: 'Updated Name'\n};\n//actions\nreturn UserAPI.updateUser(userId, _objectSpread(_objectSpread({}, _userData.default.normalUser), {}, {\n  name: updatedData.name\n}), authToken)\n//asserts\n.then(updateResponse => {\n  expect(updateResponse.status).to.be.oneOf([200, 201]);\n  return UserAPI.validateUserPersistence(userId, authToken);\n}).then(persistedUser => {\n  expect(persistedUser.name).to.equal(updatedData.name);\n});",
+              "err": {},
+              "uuid": "22bef129-d6b1-42c8-80c5-9f06bf5dd100",
+              "parentUUID": "e8606a84-9687-4197-b1be-3f0873e7daa0",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ad81c36d-8d78-450e-8e64-ecdb856618c3",
+            "2404cd30-bf34-4d0e-abde-9de97de5d218",
+            "7581ac51-5a4c-4d6c-9642-4f6ccbafd9df",
+            "22bef129-d6b1-42c8-80c5-9f06bf5dd100"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 10178,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/report",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}
