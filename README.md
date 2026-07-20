@@ -29,10 +29,6 @@ cypress/
 │   ├── apiClient.js                    (HTTP client)
 │   ├── commands.js                     (10 custom commands)
 
-```bash
-npm install
-```
-
 ### Run Tests
 
 ```bash
