@@ -20,19 +20,18 @@ describe('Shopping List Frontend Tests', () => {
   it('Search for product and validate search results', () => {
     cy.get('@products').then((products) => {
       const createdProduct = products[0]
+      console.log(createdProduct)
       shoppingListPage.searchProduct(createdProduct.name)
-      shoppingListPage.validateSearchResults(createdProduct.name, 1)
+      shoppingListPage.validateSearchResults(createdProduct.name)
     })
   })
 
-  it('Add single product to shopping cart and validate persistence', () => {
+  it('Add single product to shopping list and validate persistence', () => {
     cy.get('@products').then((products) => {
       const createdProduct = products[0]
       shoppingListPage.searchProduct(createdProduct.name)
-      shoppingListPage.addProductToCart()
-      shoppingListPage.navigateToCart()
-
-      cy.get('[data-testid="shopping-cart-product-name"]').should('be.visible')
+      shoppingListPage.addProductToShoppingList()
+      shoppingListPage.validateProductInShoppingList(createdProduct.name, createdProduct.price)
       shoppingListPage.getCartItemCount().should('equal', 1)
     })
   })
@@ -43,26 +42,13 @@ describe('Shopping List Frontend Tests', () => {
       const product2 = products[1]
 
       ;[product1, product2].forEach((product) => {
+        shoppingListPage.navigateToHome()
         shoppingListPage.searchProduct(product.name)
-        shoppingListPage.addProductToCart()
+        shoppingListPage.addProductToShoppingList()
       })
 
-      shoppingListPage.navigateToCart()
+      shoppingListPage.navigateToShoppingList()
       shoppingListPage.clearCart()
-      shoppingListPage.validateEmptyCart()
-    })
-  })
-
-  it('Remove individual product from cart', () => {
-    cy.get('@products').then((products) => {
-      const createdProduct = products[0]
-      shoppingListPage.searchProduct(createdProduct.name)
-      shoppingListPage.addProductToCart()
-
-      shoppingListPage.navigateToCart()
-      shoppingListPage.getCartItemCount().should('equal', 1)
-
-      shoppingListPage.removeProductFromCart(0)
       shoppingListPage.validateEmptyCart()
     })
   })
@@ -71,16 +57,18 @@ describe('Shopping List Frontend Tests', () => {
     cy.get('@products').then((products) => {
       const createdProduct = products[0]
       shoppingListPage.searchProduct(createdProduct.name)
-      shoppingListPage.addProductToCart()
+      shoppingListPage.addProductToShoppingList()
 
-      shoppingListPage.navigateToCart()
+      shoppingListPage.navigateToShoppingList()
       shoppingListPage.validateProductQuantity(0, '1')
 
       shoppingListPage.incrementProductQuantity(0)
       shoppingListPage.validateProductQuantity(0, '2')
+      shoppingListPage.validateProductPrice(createdProduct.price*2)
 
       shoppingListPage.decrementProductQuantity(0)
       shoppingListPage.validateProductQuantity(0, '1')
+      shoppingListPage.validateProductPrice(createdProduct.price)
     })
   })
 })

@@ -24,7 +24,10 @@ Cypress.Commands.add('apiLogin', (email, password) => {
 // Login and return token without mutating global env
 Cypress.Commands.add('apiLoginToken', (email, password) => {
   return apiClient.post('/login', { email, password }).then((response) => {
-    return response.body && response.body.authorization ? response.body.authorization : null
+    expect(response.status, 'login response status').to.equal(200)
+    const token = response.body && response.body.authorization ? response.body.authorization : null
+    expect(token, 'login token').to.be.a('string').and.not.be.empty
+    return token
   })
 })
 
@@ -104,31 +107,31 @@ Cypress.Commands.add('createProduct', (productData, token = Cypress.env('adminTo
 
 // Create products from fixture (productsData.js) using admin token
 Cypress.Commands.add('createProductsFromFixture', (token = Cypress.env('adminToken')) => {
-  return cy.fixture('productsData').then((fixture) => {
-    // support fixture in English: { products: [ { name, price, description, quantity } ] }
-    const products = fixture.products || fixture.produtos || []
-    const created = []
+  delete require.cache[require.resolve('../fixtures/productsData')]
+  const fixture = require('../fixtures/productsData')
+  const products = fixture.products || fixture.produtos || []
+  expect(products, 'products fixture').to.be.an('array').and.have.lengthOf.at.least(1)
+  expect(token, 'admin token for product creation').to.be.a('string').and.not.be.empty
+  const created = []
 
-    const createNext = (index) => {
-      if (index >= products.length) return cy.wrap(created)
-      // map English fixture fields to API expected Portuguese fields
-      const fixtureProduct = products[index]
-      const apiProduct = {
-        nome: fixtureProduct.name || fixtureProduct.nome,
-        preco: fixtureProduct.price || fixtureProduct.preco,
-        descricao: fixtureProduct.description || fixtureProduct.descricao,
-        quantidade: fixtureProduct.quantity || fixtureProduct.quantidade,
-      }
-      return cy.createProduct(apiProduct, token).then((p) => {
-        created.push(p)
-        return createNext(index + 1)
-      })
+  const createNext = (index) => {
+    if (index >= products.length) return cy.wrap(created)
+    const fixtureProduct = products[index]
+    const apiProduct = {
+      nome: fixtureProduct.name || fixtureProduct.nome,
+      preco: fixtureProduct.price || fixtureProduct.preco,
+      descricao: fixtureProduct.description || fixtureProduct.descricao,
+      quantidade: fixtureProduct.quantity || fixtureProduct.quantidade,
     }
-
-    return createNext(0).then((res) => {
-      // alias created products for simpler access in tests
-      return cy.wrap(res).as('products')
+    return cy.createProduct(apiProduct, token).then((p) => {
+      created.push(p)
+      return createNext(index + 1)
     })
+  }
+
+  return createNext(0).then((res) => {
+    // alias created products for simpler access in tests
+    return cy.wrap(res).as('products')
   })
 })
 

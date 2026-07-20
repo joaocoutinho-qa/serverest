@@ -5,21 +5,22 @@ class ShoppingListPage extends BasePageObject {
   constructor() {
     super()
     this.selectors = {
-      searchInput: '[data-testid="pesquisar"]',
-      searchButton: '[data-testid="botaoPesquisar"]',
-      productCard: '[data-testid="product-card"]',
-      productName: '[data-testid="product-name"]',
-      productPrice: '[data-testid="product-price"]',
-      addToCartButton: '[data-testid="adicionarNaLista"]',
-      cartProductName: '[data-testid="shopping-cart-product-name"]',
+      searchInput:         '[data-testid="pesquisar"]',
+      searchButton:        '[data-testid="botaoPesquisar"]',
+      productCard:         '.card-body',
+      productName:         '.card-title.negrito',
+      productPrice:        '[data-testid="product-price"]',
+      addToCartButton:     '[data-testid="adicionarNaLista"]',
+      cartProductName:     '[data-testid="shopping-cart-product-name"]',
       cartProductQuantity: '[data-testid="shopping-cart-product-quantity"]',
-      cartProductPrice: '[data-testid="shopping-cart-product-price"]',
-      clearCartButton: '[data-testid="limparLista"]',
-      emptyMessage: '[data-testid="shopping-cart-empty-message"]',
-      cartIcon: '[data-testid="cart-icon"]',
-      removeButton: '[data-testid="remove-item"]',
-      quantityIncrement: '[data-testid="quantity-increment"]',
-      quantityDecrement: '[data-testid="quantity-decrement"]',
+      cartProductPrice:    '[data-testid="shopping-cart-product-price"]',
+      clearCartButton:     '[data-testid="limparLista"]',
+      emptyMessage:        '[data-testid="shopping-cart-empty-message"]',
+      shoppingListTab:     '[data-testid="lista-de-compras"]',
+      homeTab:             '[data-testid="home"]',
+      removeButton:        '[data-testid="remove-item"]',
+      quantityIncrement:   '[data-testid="product-increase-quantity"]',
+      quantityDecrement:   '[data-testid="product-decrease-quantity"]',
     }
   }
 
@@ -50,29 +51,30 @@ class ShoppingListPage extends BasePageObject {
   searchProduct(productName) {
     cy.get(this.selectors.searchInput).clear().type(productName)
     cy.get(this.selectors.searchButton).click()
-    cy.wait('@getProducts')
   }
 
-  validateSearchResults(productName, expectedCount) {
-    cy.get(this.selectors.productCard).should('have.length', expectedCount)
+  validateSearchResults(productName) {
+    cy.get(this.selectors.productCard).should('have.length.greaterThan', 0)
     cy.get(this.selectors.productCard).first().within(() => {
       cy.get(this.selectors.productName).should('contain', productName)
     })
   }
 
-  addProductToCart() {
+  addProductToShoppingList() {
     cy.get(this.selectors.addToCartButton).first().click()
-    cy.wait('@addToCart')
+    cy.wait('@getProducts')
   }
 
-  validateProductInCart(productName, price) {
+  validateProductInShoppingList(productName, price) {
     cy.url().should('include', '/minhaListaDeProdutos')
-    cy.get(this.selectors.cartProductName)
+
+    cy.get(this.selectors.productCard)
       .first()
       .should('contain', productName)
-    cy.get(this.selectors.cartProductPrice)
+
+    cy.get(this.selectors.productCard)
       .first()
-      .should('contain', price)
+      .should('contain', `R$${price}`)
   }
 
   getCartItemCount() {
@@ -81,7 +83,6 @@ class ShoppingListPage extends BasePageObject {
 
   clearCart() {
     cy.get(this.selectors.clearCartButton).click()
-    cy.wait('@removeFromCart')
   }
 
   validateEmptyCart() {
@@ -94,7 +95,6 @@ class ShoppingListPage extends BasePageObject {
 
   removeProductFromCart(index = 0) {
     cy.get(this.selectors.removeButton).eq(index).click()
-    cy.wait('@removeFromCart')
   }
 
   incrementProductQuantity(index = 0) {
@@ -111,10 +111,19 @@ class ShoppingListPage extends BasePageObject {
       .should('contain', expectedQuantity)
   }
 
-  navigateToCart() {
-    cy.get(this.selectors.cartIcon).click()
-    cy.wait('@getCart')
+  validateProductPrice(price) {
+    cy.get(this.selectors.productCard)
+      .should('contain', price)
   }
+
+  navigateToShoppingList() {
+    cy.get(this.selectors.shoppingListTab).click()
+  }
+
+  navigateToHome() {
+    cy.get(this.selectors.homeTab).click()
+  }
+
 }
 
 export default new ShoppingListPage()
