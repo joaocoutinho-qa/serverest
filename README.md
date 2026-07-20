@@ -33,15 +33,7 @@ cypress/
 npm install
 ```
 
-2. Create a `.env` file in the project root:
-
-```env
-SERVEREST_API_URL=https://serverest.dev
-SERVEREST_FRONT_URL=https://front.serverest.dev
-SERVEREST_API_TIMEOUT=10000
-SERVEREST_MAX_RETRIES=3
-NODE_ENV=test
-```
+2. Create a `.env` file in the project root with variables and URLS:
 
 3. Run tests:
 
